@@ -1,0 +1,10 @@
+bmhelper:
+    Instance_all:
+        dist_dir : clw_dist
+        zip_compress_dir: clw_dist/zip_dir
+        git_log_file: clw_dist/zip_dir/source_codes.txt
+        fetch_zip_files:
+            -
+                type: cp
+                src_path: ./dist/
+                dst_path: data

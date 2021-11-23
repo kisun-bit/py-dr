@@ -1,0 +1,23 @@
+stages:
+  - runall
+
+runall_job_centos7:
+  stage: runall
+  script:
+    - 'pwd'
+    - 'echo $CI_BUILD_REF_NAME'
+    - 'echo $CI_PROJECT_DIR'
+    - '/usr/local/python3.6/bin/python3.6 /opt/clw/bmHelper/bmhelper_operate.py --branch $CI_BUILD_REF_NAME --type check --path $CI_PROJECT_DIR'
+    - '/usr/local/python3.6/bin/python3.6 /opt/clw/bmHelper/bmhelper_operate.py --branch $CI_BUILD_REF_NAME --type check_all --path $CI_PROJECT_DIR'
+    - 'rm -rf ./cpkt/rpc/ice'
+    - 'cp -r ./other_git/rpc_ice/py ./cpkt/rpc/ice'
+    - 'sed "s/_x_version_x_/$(date "+%y.%m%d.%H%M")/g" setup_.py > setup.py'
+    - 'rm -rf ./dist/*'
+    - 'python ice2init.py'
+    - 'python setup.py sdist --formats=zip'
+    - 'scp ./dist/* 172.16.1.65:/root/packages/'
+    - 'cd $CI_PROJECT_DIR'
+    - '/usr/local/python3.6/bin/python3.6 /opt/clw/bmHelper/bmhelper_operate.py --branch $CI_BUILD_REF_NAME --type upload --path $CI_PROJECT_DIR'
+
+  tags:
+    - centos_7

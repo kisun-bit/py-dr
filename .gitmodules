@@ -1,0 +1,4 @@
+[submodule "other_git/rpc_ice"]
+	path = other_git/rpc_ice
+	url = git@172.16.1.11:AIO/rpc_ice.git
+	branch = master
